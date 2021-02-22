@@ -2,7 +2,7 @@ job "faasd_bundle" {
   datacenters = [
     %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
-  
+
   constraint {
     attribute = "$${meta.nodeType}"
     operator  = "="
@@ -10,6 +10,61 @@ job "faasd_bundle" {
   }
 
   type        = "service"
+  
+  group "ingress-group" {
+
+    network {
+      mode = "bridge"
+
+      # This example will enable plain HTTP traffic to access the uuid-api connect
+      # native example service on port 8080.
+      port "inbound" {
+        static = 8080
+        to     = 8080
+      }
+    }
+
+    service {
+      name = "ingress-gateway"
+      port = "8080"
+
+      connect {
+        gateway {
+
+          # Consul gateway [envoy] proxy options.
+          proxy {
+            # The following options are automatically set by Nomad if not
+            # explicitly configured when using bridge networking.
+            #
+            # envoy_gateway_no_default_bind = true
+            # envoy_gateway_bind_addresses "uuid-api" {
+            #   address = "0.0.0.0"
+            #   port    = <associated listener.port>
+            # }
+            #
+            # Additional options are documented at
+            # https://www.nomadproject.io/docs/job-specification/gateway#proxy-parameters
+          }
+
+          # Consul Ingress Gateway Configuration Entry.
+          ingress {
+            # Nomad will automatically manage the Configuration Entry in Consul
+            # given the parameters in the ingress block.
+            #
+            # Additional options are documented at
+            # https://www.nomadproject.io/docs/job-specification/gateway#ingress-parameters
+            listener {
+              port     = 8080
+              protocol = "tcp"
+              service {
+                name = "gateway_http"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
  
   group "faasd" {
 

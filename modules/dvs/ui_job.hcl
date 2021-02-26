@@ -17,6 +17,9 @@ job "dvs-ui" {
     network {
       mode = "bridge"
       port "http" {}
+      port "http_envoy_prom" {
+        to = "9102"
+      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -42,6 +45,15 @@ job "dvs-ui" {
       }
     }
 
+    service {
+      name = "dvs-ui"
+      port = "http_envoy_prom"
+
+      tags = [
+      "envoy", "prometheus"
+      ]
+    }
+
     task "dvs-ui" {
       driver = "docker"
 
@@ -50,7 +62,6 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_HOST = "127.0.0.1"
         NGINX_PORT = "$${NOMAD_PORT_http}"
         DVS_WS_URL = "https://dvs-api.${domain}"
         DVS_HTTP_URL = "https://dvs.${domain}"

@@ -11,7 +11,7 @@ job "dvs-streams" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-streams" {
     network {
@@ -30,18 +30,18 @@ job "dvs-streams" {
       template {
         data = <<EOH
           KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
-          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}http://{{ .Address }}:{{ .Port }},{{ end }}"
         EOH
 
         destination = "file.env"
         env         = true
       }
       env {
-        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
+        JAVA_OPTS = "-Xms4g -Xmx4g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {
-        cpu = 2000
+        cpu = 4000
         memory = 4096
       }
     }

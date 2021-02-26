@@ -11,13 +11,13 @@ job "dvs-aviation-edge-producer" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-aviation-edge-producer" {
     network {
       mode = "bridge"
       port "http" {
-        to = 1081
+        to = 8080
       }
       dns {
         servers = [
@@ -48,22 +48,23 @@ job "dvs-aviation-edge-producer" {
       template {
         data = <<EOH
           KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
-          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}http://{{ .Address }}:{{ .Port }},{{ end }}"
         EOH
 
         destination = "file.env"
         env = true
       }
       env {
+        HOST = "0.0.0.0"
         AVIATION_EDGE.BASE_URL = "http://aviation-edge.com"
         AVIATION_EDGE.KEY =  "${aviation_edge_key}"
         OPEN_SKY.BASE_URL = "https://opensky-network.org"
-        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
+        JAVA_OPTS = "-Xms3g -Xmx3g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {
         cpu = 1000
-        memory = 2512
+        memory = 3072
       }
     }
   }

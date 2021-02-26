@@ -33,14 +33,8 @@ variable "confluent_platform_dvs_enable" {
   description = "Enable Confluent Platform Single Node Job"
 }
 
-variable "dvs_ws_url" {
-  type    = string
-  default = "https://dvs.$domain"
-}
-
-variable "dvs_http_url" {
-  type    = string
-  default = "https://dvs.$domain"
+variable "domain" {
+  type = string
 }
 
 variable "dvs_google_api_key" {

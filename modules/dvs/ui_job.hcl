@@ -11,14 +11,14 @@ job "dvs-ui" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-ui" {
     network {
       mode = "bridge"
-      port "http" {
-        to = 3000
-      }
+//      port "http_envoy_prom" {
+//        to = "9102"
+//      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -27,17 +27,31 @@ job "dvs-ui" {
 
     service {
       name = "dvs-ui"
-      tags = [
-        "dvs"]
-      port = "http",
+      tags = [ "dvs" ]
+      port = 3000,
       check {
+        expose = true
+        name = "dvs-ui-health"
         type = "http"
-        port = "http"
         path = "/nginx_status"
         interval = "5s"
         timeout = "2s"
       }
+
+      connect {
+        sidecar_service {
+        }
+      }
     }
+
+//    service {
+//      name = "dvs-ui"
+//      port = "http_envoy_prom"
+//
+//      tags = [
+//      "envoy", "prometheus"
+//      ]
+//    }
 
     task "dvs-ui" {
       driver = "docker"
@@ -47,9 +61,9 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_PORT = 3000
-        DVS_WS_URL = "${dvs_ws_url}"
-        DVS_HTTP_URL = "${dvs_http_url}"
+        NGINX_PORT = "127.0.0.1:3000"
+        DVS_WS_URL = "wss://dvs-api.${domain}"
+        DVS_HTTP_URL = "https://dvs.${domain}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"
       }
 

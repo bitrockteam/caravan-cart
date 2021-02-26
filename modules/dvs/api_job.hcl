@@ -11,14 +11,11 @@ job "dvs-api" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-api" {
     network {
       mode = "bridge"
-      port "http" {
-        to = 1081
-      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -29,13 +26,18 @@ job "dvs-api" {
       name = "dvs-api"
       tags = [
         "dvs"]
-      port = "http",
+      port = "1081",
       check {
+        expose = true
+        name = "dvs-api-health"
         type = "http"
-        port = "http"
         path = "/health"
         interval = "30s"
         timeout = "10s"
+      }
+      connect {
+        sidecar_service {
+        }
       }
     }
 
@@ -48,16 +50,16 @@ job "dvs-api" {
       template {
         data = <<EOH
           KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
-          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}http://{{ .Address }}:{{ .Port }},{{ end }}"
         EOH
 
         destination = "file.env"
         env = true
       }
       env {
-        HOST = 0.0.0.0
-        PORT = 1081
-        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
+        HOST = "127.0.0.1"
+        PORT = "1081"
+        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {

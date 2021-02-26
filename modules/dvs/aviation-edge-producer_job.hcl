@@ -48,7 +48,7 @@ job "dvs-aviation-edge-producer" {
       template {
         data = <<EOH
           KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
-          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}http://{{ .Address }}:{{ .Port }}{{ end }}"
         EOH
 
         destination = "file.env"

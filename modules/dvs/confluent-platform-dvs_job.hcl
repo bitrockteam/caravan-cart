@@ -11,7 +11,7 @@ job "confluent-platform-dvs" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "confluent-platform" {
     network {

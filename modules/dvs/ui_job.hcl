@@ -5,7 +5,7 @@ job "dvs-ui" {
 
   type = "service"
 
-  //%{ for constraint in monitoring_jobs_constraint ~}
+  //%{ for constraint in jobs_constraint ~}
   constraint {
     //%{ for key, value in constraint ~}
     //"${key}" = "${value}"
@@ -18,9 +18,6 @@ job "dvs-ui" {
       mode = "bridge"
       port "http" {
         to = 3000
-      }
-      port "http_envoy_prom" {
-        to = "9102"
       }
       dns {
         servers = [
@@ -40,22 +37,6 @@ job "dvs-ui" {
         interval = "5s"
         timeout = "2s"
       }
-      connect {
-        sidecar_service {
-          port = "http"
-        }
-      }
-
-    }
-
-    service {
-      name = "dvs-ui"
-      port = "http_envoy_prom"
-
-      tags = [
-        "envoy",
-        "prometheus"
-      ]
     }
 
     task "dvs-ui" {

@@ -1,59 +1,24 @@
 job "dvs-streams" {
   datacenters = [
-    //%{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
+    %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
   type = "service"
 
-  //%{ for constraint in monitoring_jobs_constraint ~}
+  %{ for constraint in jobs_constraint ~}
   constraint {
-    //%{ for key, value in constraint ~}
-    //"${key}" = "${value}"
-    //%{ endfor ~}
+    %{ for key, value in constraint ~}
+    "${key}" = "${value}"
+    %{ endfor ~}
   }
-  //{ endfor ~}
+  { endfor ~}
 
   group "dvs-streams" {
     network {
       mode = "bridge"
-      port "http" {
-        to = 3000
-      }
-      port "http_envoy_prom" {
-        to = "9102"
-      }
       dns {
         servers = [ "${nameserver_dummy_ip}" ]
       }
-    }
-
-    service {
-      name = "dvs-streams"
-      tags = ["dvs"]
-      port = "http"
-      check {
-        type = "http"
-        port = "http"
-        path = "/nginx_status"
-        interval = "5s"
-        timeout = "2s"
-      }
-      connect {
-        sidecar_service {
-          port = "http"
-        }
-      }
-
-    }
-
-    service {
-      name = "dvs-streams"
-      port = "http_envoy_prom"
-
-      tags = [
-        "envoy",
-        "prometheus"
-      ]
     }
 
     task "dvs-streams" {
@@ -62,10 +27,16 @@ job "dvs-streams" {
       config {
         image = "618624782178.dkr.ecr.eu-west-1.amazonaws.com/kafka-dvs-streams:snapshot"
       }
+      template {
+        data = <<EOH
+          KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+          SCHEMAREGISTRY.URL="{{ range service "schema-registry-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+        EOH
 
+        destination = "file.env"
+        env         = true
+      }
       env {
-        KAFKA.BOOTSTRAP.SERVERS = "localhost:9092"
-        SCHEMAREGISTRY.URL = "http://localhost:8081"
         JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
       }
 

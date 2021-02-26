@@ -11,7 +11,7 @@ job "dvs-aviation-edge-producer" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-aviation-edge-producer" {
     network {

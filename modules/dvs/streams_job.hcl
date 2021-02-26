@@ -11,7 +11,7 @@ job "dvs-streams" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-streams" {
     network {

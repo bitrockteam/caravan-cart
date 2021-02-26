@@ -11,7 +11,7 @@ job "dvs-api" {
     "${key}" = "${value}"
     %{ endfor ~}
   }
-  { endfor ~}
+  %{ endfor ~}
 
   group "dvs-api" {
     network {

@@ -37,7 +37,7 @@ job "dvs-streams" {
         env         = true
       }
       env {
-        JAVA_OPTS = "-Xms3g -Xmx3g -XX:+PrintGCDetails"
+        JAVA_OPTS = "-Xms3g -Xmx3g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {

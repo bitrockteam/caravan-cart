@@ -62,7 +62,7 @@ job "confluent-platform-dvs" {
       driver = "docker"
 
       config {
-        image = "confluentinc/cp-zookeeper:5.4.3"
+        image = "confluentinc/cp-zookeeper:6.1.0"
       }
 
       env {
@@ -79,7 +79,7 @@ job "confluent-platform-dvs" {
       driver = "docker"
 
       config {
-        image = "confluentinc/cp-enterprise-kafka:5.4.3"
+        image = "confluentinc/cp-enterprise-kafka:6.1.0"
       }
 
       env {
@@ -109,7 +109,7 @@ job "confluent-platform-dvs" {
       driver = "docker"
 
       config {
-        image = "confluentinc/cp-schema-registry:5.4.3"
+        image = "confluentinc/cp-schema-registry:6.1.0"
       }
 
       env {

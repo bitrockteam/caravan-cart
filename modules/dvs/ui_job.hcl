@@ -19,9 +19,6 @@ job "dvs-ui" {
       port "http" {
         to = 3000
       }
-      port "ingress" {
-        static = 8080
-      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -30,8 +27,7 @@ job "dvs-ui" {
 
     service {
       name = "dvs-ui"
-      tags = [
-        "dvs"]
+      tags = [ "dvs", "ingress"]
       port = "http",
       check {
         type = "http"
@@ -39,25 +35,6 @@ job "dvs-ui" {
         path = "/nginx_status"
         interval = "5s"
         timeout = "2s"
-      }
-
-      connect {
-        sidecar_service {
-          port = "http"
-        }
-        gateway {
-          proxy { }
-          ingress {
-              listener {
-                port = 8080
-                protocol = "http"
-                service {
-                  name = "dvs-ui"
-                  hosts = [ "dvs.${domain}"]
-                }
-              }
-          }
-        }
       }
     }
 

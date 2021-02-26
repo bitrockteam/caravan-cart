@@ -14,6 +14,12 @@ job "confluent-platform-dvs" {
   %{ endfor ~}
 
   group "confluent-platform" {
+    restart {
+      attempts = 10
+      interval = "30m"
+      delay = "30s"
+      mode = "fail"
+    }
     network {
       mode = "bridge"
       port "http_zook" {

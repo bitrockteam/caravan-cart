@@ -47,7 +47,7 @@ job "dvs-ui" {
                 protocol = "http"
                 service {
                   name = "dvs-ui"
-                  hosts = [ "${dvs_http_url}"]
+                  hosts = [ "dvs.${domain}"]
                 }
               }
           }
@@ -64,8 +64,8 @@ job "dvs-ui" {
 
       env {
         NGINX_PORT = "3000"
-        DVS_WS_URL = "${dvs_ws_url}"
-        DVS_HTTP_URL = "${dvs_http_url}"
+        DVS_WS_URL = "https://dvs-api.${domain}"
+        DVS_HTTP_URL = "https://dvs.${domain}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"
       }
 

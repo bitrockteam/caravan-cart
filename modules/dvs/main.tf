@@ -11,8 +11,7 @@ resource "nomad_job" "dvs" {
       nameserver_dummy_ip = var.nameserver_dummy_ip
       jobs_constraint     = var.jobs_constraint
       cp_jobs_constraint  = var.cp_jobs_constraint
-      dvs_ws_url          = var.dvs_ws_url
-      dvs_http_url        = var.dvs_http_url
+      domain              = var.domain
       dvs_google_api_key  = var.dvs_google_api_key
       aviation_edge_key   = var.aviation_edge_key
     }

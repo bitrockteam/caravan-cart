@@ -19,6 +19,9 @@ job "dvs-ui" {
       port "http" {
         to = 3000
       }
+      port "ingress" {
+        static = 8080
+      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]

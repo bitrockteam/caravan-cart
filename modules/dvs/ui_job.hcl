@@ -50,6 +50,7 @@ job "dvs-ui" {
       }
 
       env {
+        NGINX_HOST = "127.0.0.1"
         NGINX_PORT = "$${NOMAD_PORT_http}"
         DVS_WS_URL = "https://dvs-api.${domain}"
         DVS_HTTP_URL = "https://dvs.${domain}"

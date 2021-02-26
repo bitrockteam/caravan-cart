@@ -31,7 +31,9 @@ job "dvs-ui" {
       tags = [ "dvs", "ingress"]
       port = "http",
       check {
+        expose = true
         type = "http"
+        port = "http"
         path = "/nginx_status"
         interval = "5s"
         timeout = "2s"

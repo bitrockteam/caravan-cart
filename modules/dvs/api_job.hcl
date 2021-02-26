@@ -17,16 +17,14 @@ job "dvs-api" {
     network {
       mode = "bridge"
       dns {
-        servers = [
-          "${nameserver_dummy_ip}"]
+        servers = [ "${nameserver_dummy_ip}"]
       }
     }
 
     service {
       name = "dvs-api"
-      tags = [
-        "dvs"]
-      port = "1081",
+      tags = ["dvs"]
+      port = 1081,
       check {
         expose = true
         name = "dvs-api-health"
@@ -59,11 +57,11 @@ job "dvs-api" {
       env {
         HOST = "127.0.0.1"
         PORT = "1081"
-        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
+        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {
-        cpu = 1000
+        cpu = 2000
         memory = 2512
       }
     }

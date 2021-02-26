@@ -16,9 +16,9 @@ job "dvs-ui" {
   group "dvs-ui" {
     network {
       mode = "bridge"
-//      port "http_envoy_prom" {
-//        to = "9102"
-//      }
+      port "http_envoy_prom" {
+        to = "9102"
+      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -29,6 +29,9 @@ job "dvs-ui" {
       name = "dvs-ui"
       tags = [ "dvs" ]
       port = 3000,
+      meta {
+        envoy_metrics_port = "$${NOMAD_HOST_PORT_http_envoy_prom}"
+      }
       check {
         expose = true
         name = "dvs-ui-health"
@@ -43,15 +46,6 @@ job "dvs-ui" {
         }
       }
     }
-
-//    service {
-//      name = "dvs-ui"
-//      port = "http_envoy_prom"
-//
-//      tags = [
-//      "envoy", "prometheus"
-//      ]
-//    }
 
     task "dvs-ui" {
       driver = "docker"

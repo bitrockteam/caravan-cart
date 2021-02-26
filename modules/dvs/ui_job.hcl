@@ -44,6 +44,7 @@ job "dvs-ui" {
           ingress {
               listener {
                 port = 8080
+                protocol = "http"
                 service {
                   name = "dvs-ui"
                   hosts = [ "${dvs_ws_url}:8080", "${dvs_http_url}:8080"]

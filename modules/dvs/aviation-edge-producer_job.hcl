@@ -55,6 +55,7 @@ job "dvs-aviation-edge-producer" {
         env = true
       }
       env {
+        HOST = "0.0.0.0"
         AVIATION_EDGE.BASE_URL = "http://aviation-edge.com"
         AVIATION_EDGE.KEY =  "${aviation_edge_key}"
         OPEN_SKY.BASE_URL = "https://opensky-network.org"

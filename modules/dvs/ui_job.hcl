@@ -47,7 +47,7 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_PORT = 3000
+        NGINX_PORT = "3000"
         DVS_WS_URL = "${dvs_ws_url}"
         DVS_HTTP_URL = "${dvs_http_url}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"

@@ -55,8 +55,8 @@ job "dvs-api" {
         env = true
       }
       env {
-        HOST = 0.0.0.0
-        PORT = 1081
+        HOST = "0.0.0.0"
+        PORT = "1081"
         JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
       }
 

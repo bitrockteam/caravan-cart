@@ -17,6 +17,7 @@ job "dvs-ui" {
     network {
       mode = "bridge"
       port "http" {}
+      port "http_envoy" {}
       port "http_envoy_prom" {
         to = "9102"
       }
@@ -28,12 +29,12 @@ job "dvs-ui" {
 
     service {
       name = "dvs-ui"
-      tags = [ "dvs", "ingress"]
+      tags = [ "dvs" ]
       port = "http",
       check {
         expose = true
         type = "http"
-        port = "http"
+        port = "http_envoy"
         path = "/nginx_status"
         interval = "5s"
         timeout = "2s"
@@ -41,6 +42,7 @@ job "dvs-ui" {
 
       connect {
         sidecar_service {
+            port = "http_envoy"
         }
       }
     }

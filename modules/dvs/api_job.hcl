@@ -16,9 +16,6 @@ job "dvs-api" {
   group "dvs-api" {
     network {
       mode = "bridge"
-      port "http" {
-        to = 1081
-      }
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -29,13 +26,18 @@ job "dvs-api" {
       name = "dvs-api"
       tags = [
         "dvs"]
-      port = "http",
+      port = "1081",
       check {
+        expose = true
+        name = "dvs-api-health"
         type = "http"
-        port = "http"
         path = "/health"
         interval = "30s"
         timeout = "10s"
+      }
+      connect {
+        sidecar_service {
+        }
       }
     }
 
@@ -55,7 +57,7 @@ job "dvs-api" {
         env = true
       }
       env {
-        HOST = "0.0.0.0"
+        HOST = "127.0.0.1"
         PORT = "1081"
         JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
       }

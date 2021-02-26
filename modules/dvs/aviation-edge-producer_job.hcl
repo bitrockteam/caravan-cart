@@ -39,16 +39,6 @@ job "dvs-aviation-edge-producer" {
       }
     }
 
-    service {
-      name = "dvs-aviation-edge-producer"
-      port = "http_envoy_prom"
-
-      tags = [
-        "envoy",
-        "prometheus"
-      ]
-    }
-
     task "dvs-aviation-edge-producer" {
       driver = "docker"
 

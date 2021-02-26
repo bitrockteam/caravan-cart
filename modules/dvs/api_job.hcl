@@ -39,16 +39,6 @@ job "dvs-api" {
       }
     }
 
-    service {
-      name = "dvs-api"
-      port = "http_envoy_prom"
-
-      tags = [
-        "envoy",
-        "prometheus"
-      ]
-    }
-
     task "dvs-api" {
       driver = "docker"
 

@@ -5,7 +5,7 @@ locals {
 resource "nomad_job" "dvs" {
   for_each = local.dvs_jobs
   jobspec = templatefile(
-    each.value,
+    "${path.module}/${each.value}",
     {
       dc_names            = var.dc_names
       nameserver_dummy_ip = var.nameserver_dummy_ip

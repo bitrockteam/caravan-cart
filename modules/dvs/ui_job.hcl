@@ -16,9 +16,7 @@ job "dvs-ui" {
   group "dvs-ui" {
     network {
       mode = "bridge"
-      port "http" {
-        to = 3000
-      }
+      port "http" {}
       dns {
         servers = [
           "${nameserver_dummy_ip}"]
@@ -52,7 +50,7 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_PORT = "3000"
+        NGINX_PORT = "$${NOMAD_PORT_http}"
         DVS_WS_URL = "https://dvs-api.${domain}"
         DVS_HTTP_URL = "https://dvs.${domain}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"

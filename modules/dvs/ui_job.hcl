@@ -19,7 +19,6 @@ job "dvs-ui" {
       port "http" {
         to = 3000
       }
-      port "http_envoy" {}
       port "http_envoy_prom" {
         to = "9102"
       }
@@ -34,8 +33,10 @@ job "dvs-ui" {
       tags = [ "dvs" ]
       port = "http",
       check {
+        expose = true
+        name = "dvs-ui-health"
         type = "http"
-        port = "http_envoy"
+        port = "http"
         path = "/nginx_status"
         interval = "5s"
         timeout = "2s"
@@ -43,17 +44,6 @@ job "dvs-ui" {
 
       connect {
         sidecar_service {
-            port = "http_envoy"
-            proxy {
-                expose {
-                  path {
-                    path            = "/nginx_status"
-                    protocol        = "http"
-                    local_path_port = 3000
-                    listener_port   = "http_envoy"
-                  }
-                }
-            }
         }
       }
     }

@@ -42,8 +42,11 @@ job "dvs-ui" {
       }
 
       connect {
+        sidecar_service {
+          port = "http"
+        }
         gateway {
-          proxy {}
+          proxy { }
           ingress {
               listener {
                 port = 8080

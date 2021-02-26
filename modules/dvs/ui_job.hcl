@@ -40,7 +40,6 @@ job "dvs-ui" {
 
       connect {
         sidecar_service {
-          port = "http"
         }
       }
     }
@@ -62,7 +61,7 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_PORT = "127.0.0.1:$${NOMAD_PORT_http}"
+        NGINX_PORT = "$${NOMAD_PORT_http}"
         DVS_WS_URL = "https://dvs-api.${domain}"
         DVS_HTTP_URL = "https://dvs.${domain}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"

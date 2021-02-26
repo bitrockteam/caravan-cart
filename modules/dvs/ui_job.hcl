@@ -16,7 +16,9 @@ job "dvs-ui" {
   group "dvs-ui" {
     network {
       mode = "bridge"
-      port "http" {}
+      port "http" {
+        to = 3000
+      }
       port "http_envoy" {}
       port "http_envoy_prom" {
         to = "9102"
@@ -32,7 +34,6 @@ job "dvs-ui" {
       tags = [ "dvs" ]
       port = "http",
       check {
-        expose = true
         type = "http"
         port = "http_envoy"
         path = "/nginx_status"
@@ -43,6 +44,16 @@ job "dvs-ui" {
       connect {
         sidecar_service {
             port = "http_envoy"
+            proxy {
+                expose {
+                  path {
+                    path            = "/nginx_status"
+                    protocol        = "http"
+                    local_path_port = 3000
+                    listener_port   = "http_envoy"
+                  }
+                }
+            }
         }
       }
     }
@@ -64,7 +75,7 @@ job "dvs-ui" {
       }
 
       env {
-        NGINX_PORT = "127.0.0.1:$${NOMAD_PORT_http}"
+        NGINX_PORT = "127.0.0.1:3000"
         DVS_WS_URL = "https://dvs-api.${domain}"
         DVS_HTTP_URL = "https://dvs.${domain}"
         DVS_GOOGLE_API_KEY = "${dvs_google_api_key}"

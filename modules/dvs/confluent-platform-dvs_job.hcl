@@ -25,9 +25,7 @@ job "confluent-platform-dvs" {
       port "http_zook" {
         to = 2181
       }
-      port "http_broker" {
-        to = 9092
-      }
+      port "http_broker" { }
       port "http_schema" {
         to = 8081
       }
@@ -88,7 +86,7 @@ job "confluent-platform-dvs" {
         KAFKA_BROKER_ID = "1"
         KAFKA_ZOOKEEPER_CONNECT = "localhost:2181"
         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP = "PLAINTEXT:PLAINTEXT,INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
-        KAFKA_ADVERTISED_LISTENERS = "PLAINTEXT://kafka-dvs.service.consul:$${NOMAD_HOST_PORT_http_broker},INTERNAL://localhost:9091,CONTROLLER://localhost:9089"
+        KAFKA_ADVERTISED_LISTENERS = "PLAINTEXT://kafka-dvs.service.consul:$${NOMAD_PORT_http_broker},INTERNAL://localhost:9091,CONTROLLER://localhost:9089"
         KAFKA_CONTROL_PLAN_LISTENER_NAME = "CONTROLLER"
         KAFKA_INTER_BROKER_LISTENER_NAME = "INTERNAL"
         KAFKA_METRIC_REPORTERS = "io.confluent.metrics.reporter.ConfluentMetricsReporter"

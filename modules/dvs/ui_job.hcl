@@ -37,6 +37,20 @@ job "dvs-ui" {
         interval = "5s"
         timeout = "2s"
       }
+
+      connect {
+        gateway {
+          ingress {
+              listener {
+                port = 8080
+                service {
+                  name = "dvs-ui"
+                  hosts = [ "${dvs_ws_url}:8080", "${dvs_http_url}:8080"]
+                }
+              }
+          }
+        }
+      }
     }
 
     task "dvs-ui" {

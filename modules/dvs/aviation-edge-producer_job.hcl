@@ -17,7 +17,7 @@ job "dvs-aviation-edge-producer" {
     network {
       mode = "bridge"
       port "http" {
-        to = 1081
+        to = 8080
       }
       dns {
         servers = [

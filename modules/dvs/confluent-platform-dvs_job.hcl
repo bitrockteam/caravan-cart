@@ -63,6 +63,7 @@ job "confluent-platform-dvs" {
 
       config {
         image = "confluentinc/cp-zookeeper:6.1.0"
+        ports = ["http_zook"]
       }
 
       env {
@@ -80,6 +81,7 @@ job "confluent-platform-dvs" {
 
       config {
         image = "confluentinc/cp-enterprise-kafka:6.1.0"
+        ports = ["http_broker"]
       }
 
       env {
@@ -114,6 +116,7 @@ job "confluent-platform-dvs" {
       }
       config {
         image = "confluentinc/cp-schema-registry:6.1.0"
+        ports = ["http_schema"]
       }
 
       env {

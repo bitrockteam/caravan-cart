@@ -107,7 +107,11 @@ job "confluent-platform-dvs" {
     }
     task "schema-registry" {
       driver = "docker"
-
+      restart {
+        attempts = 10
+        delay = "30s"
+        mode = "fail"
+      }
       config {
         image = "confluentinc/cp-schema-registry:6.1.0"
       }

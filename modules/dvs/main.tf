@@ -25,7 +25,7 @@ resource "nomad_job" "confluent_platform_dvs" {
     {
       dc_names            = var.dc_names
       nameserver_dummy_ip = var.nameserver_dummy_ip
-      jobs_constraint     = var.jobs_constraint
+      cp_jobs_constraint  = var.cp_jobs_constraint
     }
   )
 }

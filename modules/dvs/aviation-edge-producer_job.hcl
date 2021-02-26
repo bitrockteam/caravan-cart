@@ -56,7 +56,7 @@ job "dvs-aviation-edge-producer" {
       }
       env {
         AVIATION_EDGE.BASE_URL = "http://aviation-edge.com"
-        AVIATION_EDGE.KEY =  "XXXXX-XXXX"
+        AVIATION_EDGE.KEY =  "${aviation_edge_key}"
         OPEN_SKY.BASE_URL = "https://opensky-network.org"
         JAVA_OPTS = "-Xms2g -Xmx2g -XX:+PrintGCDetails"
       }

@@ -21,7 +21,7 @@ resource "nomad_job" "dvs" {
 resource "nomad_job" "confluent_platform_dvs" {
   count = var.confluent_platform_dvs_enable ? 1 : 0
   jobspec = templatefile(
-    "confluent-platform-dvs_job.hcl",
+    "${path.module}/confluent-platform-dvs_job.hcl",
     {
       dc_names            = var.dc_names
       nameserver_dummy_ip = var.nameserver_dummy_ip

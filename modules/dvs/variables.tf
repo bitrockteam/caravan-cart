@@ -12,6 +12,16 @@ variable "jobs_constraint" {
   description = "List of constraints to be applied to jobs running. Escape $ with double $."
 }
 
+variable "cp_jobs_constraint" {
+  type = list(map(string))
+  default = [{
+    attribute = "$${meta.nodeType}"
+    operator  = "="
+    value     = "worker"
+  }]
+  description = "List of constraints to be applied to CP jobs running. Escape $ with double $."
+}
+
 variable "nameserver_dummy_ip" {
   type    = string
   default = "192.168.0.1"

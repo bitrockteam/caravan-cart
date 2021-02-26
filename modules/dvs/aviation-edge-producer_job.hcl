@@ -1,17 +1,17 @@
 job "dvs-aviation-edge-producer" {
   datacenters = [
-    //%{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
+    %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
   type = "service"
 
-  //%{ for constraint in jobs_constraint ~}
+  %{ for constraint in jobs_constraint ~}
   constraint {
-    //%{ for key, value in constraint ~}
-    //"${key}" = "${value}"
-    //%{ endfor ~}
+    %{ for key, value in constraint ~}
+    "${key}" = "${value}"
+    %{ endfor ~}
   }
-  //{ endfor ~}
+  { endfor ~}
 
   group "dvs-aviation-edge-producer" {
     network {
@@ -53,7 +53,7 @@ job "dvs-aviation-edge-producer" {
       driver = "docker"
 
       config {
-        image = "618624782178.dkr.ecr.eu-west-1.amazonaws.com/kafka-dvs-aviation-edge-producer:snapshot"
+        image = "bitrockteam/kafka-dvs-aviation-edge-producer:snapshot"
       }
       template {
         data = <<EOH

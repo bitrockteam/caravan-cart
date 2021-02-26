@@ -28,6 +28,7 @@ No Modules.
 | dc\_names | n/a | `list(string)` | n/a | yes |
 | aviation\_edge\_key | n/a | `string` | `""` | no |
 | confluent\_platform\_dvs\_enable | Enable Confluent Platform Single Node Job | `bool` | `false` | no |
+| cp\_jobs\_constraint | List of constraints to be applied to CP jobs running. Escape $ with double $. | `list(map(string))` | <pre>[<br>  {<br>    "attribute": "${meta.nodeType}",<br>    "operator": "=",<br>    "value": "worker"<br>  }<br>]</pre> | no |
 | dvs\_google\_api\_key | n/a | `string` | `""` | no |
 | dvs\_http\_url | n/a | `string` | `"https://dvs.$domain"` | no |
 | dvs\_ws\_url | n/a | `string` | `"https://dvs.$domain"` | no |

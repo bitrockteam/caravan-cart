@@ -25,7 +25,7 @@ job "dvs-streams" {
       driver = "docker"
 
       config {
-        image = "618624782178.dkr.ecr.eu-west-1.amazonaws.com/kafka-dvs-streams:snapshot"
+        image = "bitrockteam/kafka-dvs-streams:snapshot"
       }
       template {
         data = <<EOH

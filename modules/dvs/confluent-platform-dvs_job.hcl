@@ -1,10 +1,17 @@
 job "confluent-platform-dvs" {
   datacenters = [
-    "aws-dc"
+    %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
   type = "service"
 
+  %{ for constraint in cp_jobs_constraint ~}
+  constraint {
+    %{ for key, value in constraint ~}
+    "${key}" = "${value}"
+    %{ endfor ~}
+  }
+  { endfor ~}
 
   group "confluent-platform" {
     network {

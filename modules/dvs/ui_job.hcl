@@ -36,6 +36,12 @@ job "dvs-ui" {
         interval = "5s"
         timeout = "2s"
       }
+
+      connect {
+        sidecar_service {
+          port = "http"
+        }
+      }
     }
 
     task "dvs-ui" {

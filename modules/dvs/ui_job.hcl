@@ -40,6 +40,7 @@ job "dvs-ui" {
 
       connect {
         gateway {
+          proxy {}
           ingress {
               listener {
                 port = 8080

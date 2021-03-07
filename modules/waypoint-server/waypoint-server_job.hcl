@@ -64,7 +64,7 @@ job "waypoint-server" {
             driver = "docker"
 
             config {
-                image = "${container_registry}/hashicorp/waypoint:lts"
+                image = "hashicorp/waypoint"
                 args = [ "server", "run", 
                   "-vvv",
                   "-advertise-tls=false", 

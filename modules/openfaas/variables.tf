@@ -12,3 +12,7 @@ variable "openfaas_jobs_constraints" {
   }]
   description = "List of constraints to be applied to jobs. Escape $ with double $."
 }
+variable "nomad_endpoint" {
+  type        = string
+  description = "(required) nomad cluster endpoint"
+}

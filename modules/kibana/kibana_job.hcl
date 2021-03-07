@@ -70,7 +70,7 @@ job "kibana" {
             }
 
             env {
-                SERVER_NAME = "kibana.${domain}"
+                SERVER_NAME = "kibana.${services_domain}"
                 SERVER_PORT = "$${NOMAD_PORT_http}"
                 ELASTICSEARCH_HOSTS = "http://localhost:9200"
                 TELEMETRY_ENABLED = "false"

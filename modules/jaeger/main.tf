@@ -2,10 +2,10 @@ locals {
   jobs = { for f in fileset(path.module, "*_job.hcl") : basename(trimsuffix(f, "_job.hcl")) => f }
 }
 
-resource "nomad_job" "jaeger" {
-  for_each = local.job
+resource "nomad_job" "jaeger_jobs" {
+  for_each = local.jobs
   jobspec = templatefile(
-    "${path.module}/job.hcl",
+    "${path.module}/${each.value}",
     {
       dc_names                  = var.dc_names,
       services_domain           = var.services_domain,

@@ -6,14 +6,14 @@ variable "dc_names" {
 variable "services_domain" {
   type = string
 }
-variable "monitoring_jobs_constraint" {
+variable "jaeger_jobs_constraints" {
   type = list(map(string))
   default = [{
     attribute = "$${meta.nodeType}"
     operator  = "="
     value     = "monitoring"
   }]
-  description = "List of constraints to be applied to jobs running in monitoring node. Escape $ with double $."
+  description = "List of constraints to be applied to jobs. Escape $ with double $."
 }
 variable "elastic_service_name" {
   type = string

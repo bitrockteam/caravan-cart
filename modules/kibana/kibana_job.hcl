@@ -5,7 +5,7 @@ job "kibana" {
 
     type = "service"
 
-    %{ for constraint in monitoring_jobs_constraint ~}
+    %{ for constraint in kibana_jobs_constraints ~}
     constraint {
         %{ for key, value in constraint ~}
         "${key}" = "${value}"

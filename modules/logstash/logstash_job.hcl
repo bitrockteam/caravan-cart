@@ -2,6 +2,14 @@ job "logstash" {
   datacenters = [
     %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
+  
+  %{ for constraint in logstash_jobs_constraints ~}
+  constraint {
+      %{ for key, value in constraint ~}
+      "${key}" = "${value}"
+      %{ endfor ~}
+  }
+  %{ endfor ~}
 
   group "service_group" {
       ephemeral_disk {

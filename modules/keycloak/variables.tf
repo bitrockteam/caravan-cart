@@ -15,3 +15,12 @@ variable "keycloak_admin_password" {
   type    = string
   default = "admin"
 }
+variable "keycloak_jobs_constraints" {
+  type = list(map(string))
+  default = [{
+    attribute = "$${meta.nodeType}"
+    operator  = "="
+    value     = "worker"
+  }]
+  description = "List of constraints to be applied to jobs. Escape $ with double $."
+}

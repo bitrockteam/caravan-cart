@@ -3,7 +3,7 @@ job "keycloak" {
     %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
-  %{ for constraint in generic_job_constraint ~}
+  %{ for constraint in keycloak_job_constraint ~}
     constraint {
       %{ for key, value in constraint ~}
       "${key}" = "${value}"

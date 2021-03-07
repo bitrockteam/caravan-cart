@@ -7,11 +7,13 @@ job "faasd_bundle" {
     %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
+  %{ for constraint in openfaas_jobs_constraints ~}
   constraint {
-    attribute = "$${meta.nodeType}"
-    operator  = "="
-    value     = "worker"
+      %{ for key, value in constraint ~}
+      "${key}" = "${value}"
+      %{ endfor ~}
   }
+  %{ endfor ~}
 
   type        = "service"
  

@@ -10,7 +10,7 @@ job "jaeger-deps" {
         prohibit_overlap = true
     }
 
-    %{ for constraint in monitoring_jobs_constraint ~}
+    %{ for constraint in jaeger_jobs_constraints ~}
     constraint {
         %{ for key, value in constraint ~}
         "${key}" = "${value}"

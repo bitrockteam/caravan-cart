@@ -5,7 +5,7 @@ job "jaeger-agent" {
 
     type = "system"
 
-  %{ for constraint in monitoring_jobs_constraint ~}
+  %{ for constraint in jaeger_jobs_constraints ~}
   constraint {
     %{ for key, value in constraint ~}
     "${key}" = "${value}"

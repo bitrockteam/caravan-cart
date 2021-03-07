@@ -3,7 +3,7 @@ job "waypoint-server" {
     %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
-  %{ for constraint in job_constraints ~}
+  %{ for constraint in waypoint_server_job_constraints ~}
     constraint {
       %{ for key, value in constraint ~}
       "${key}" = "${value}"

@@ -6,6 +6,7 @@ resource "nomad_job" "keycloak" {
       nameserver_dummy_ip     = var.nameserver_dummy_ip,
       keycloak_admin_user     = var.keycloak_admin_user,
       keycloak_admin_password = var.keycloak_admin_password,
+      keycloak_job_constraint = var.keycloak_job_constraint
     }
   )
 }

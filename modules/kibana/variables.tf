@@ -10,3 +10,12 @@ variable "nameserver_dummy_ip" {
 variable "elastic_service_name" {
   type = string
 }
+variable "kibana_jobs_constraints" {
+  type = list(map(string))
+  default = [{
+    attribute = "$${meta.nodeType}"
+    operator  = "="
+    value     = "monitoring"
+  }]
+  description = "List of constraints to be applied to jobs. Escape $ with double $."
+}

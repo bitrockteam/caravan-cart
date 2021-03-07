@@ -19,7 +19,7 @@ variable "elastic_service_name" {
   type = string
 }
 variable "jeager_agent_service_name" {
-  type = string
+  type    = string
   default = "jaeger-agent"
 }
 variable "artifacts_source_prefix" {

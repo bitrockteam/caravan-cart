@@ -51,10 +51,10 @@ job "dvs-aviation-edge-producer" {
         command = "bash"
         args = [
           "-c",
-          "chmod +x local/dvs-kafka-topics.sh && exec local/dvs-kafka-topics.sh"
+          "chmod +x /local/dvs-kafka-topics.sh && exec /local/dvs-kafka-topics.sh"
         ]
         volumes = [
-        "local:local:ro"
+        "local:/local:ro"
         ]
       }
       template {

@@ -66,12 +66,12 @@ job "dvs-aviation-edge-producer" {
         destination = "local/dvs-kafka-topics.sh"
       }
       env {
-        JAVA_OPTS = "-Xms128m -Xmx128m"
+        JAVA_OPTS = "-Xms64m -Xmx64m"
       }
 
       resources {
-        cpu = 250
-        memory = 128
+        cpu = 100
+        memory = 64
       }
     }
     task "dvs-aviation-edge-producer" {

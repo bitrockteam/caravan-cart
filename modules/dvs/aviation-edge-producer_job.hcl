@@ -53,9 +53,6 @@ job "dvs-aviation-edge-producer" {
           "-c",
           "chmod +x /local/dvs-kafka-topics.sh && exec /local/dvs-kafka-topics.sh"
         ]
-        volumes = [
-        "local:/local:ro"
-        ]
       }
       template {
         data = <<EOH

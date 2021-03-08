@@ -75,7 +75,7 @@ job "dvs-aviation-edge-producer" {
 
       resources {
         cpu = 100
-        memory = 64
+        memory = 128
       }
     }
     task "dvs-aviation-edge-producer" {

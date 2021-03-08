@@ -39,6 +39,45 @@ job "dvs-aviation-edge-producer" {
       }
     }
 
+    task "dvs-kafka-topics" {
+      lifecycle {
+        hook = "prestart"
+        sidecar = false
+      }
+      driver = "docker"
+      user = "root"
+      config {
+        image = "confluentinc/cp-kafka:6.1.0"
+        command = "bash"
+        args = [
+          "-c",
+          "chmod +x /local/dvs-kafka-topics.sh && exec /local/dvs-kafka-topics.sh"
+        ]
+      }
+      template {
+        data = <<EOH
+                  KAFKA_BOOTSTRAP_SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+                EOH
+
+        destination = "file.env"
+        env = true
+      }
+      template {
+        data = <<EOH
+          ${kafka_topics_script}
+        EOH
+
+        destination = "local/dvs-kafka-topics.sh"
+      }
+      env {
+        JAVA_OPTS = "-Xms64m -Xmx64m"
+      }
+
+      resources {
+        cpu = 100
+        memory = 128
+      }
+    }
     task "dvs-aviation-edge-producer" {
       driver = "docker"
 

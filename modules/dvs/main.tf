@@ -14,8 +14,10 @@ resource "nomad_job" "dvs" {
       domain              = var.domain
       dvs_google_api_key  = var.dvs_google_api_key
       aviation_edge_key   = var.aviation_edge_key
+      kafka_topics_script = file("${path.module}/dvs-kafka-topics.sh")
     }
   )
+  depends_on = [nomad_job.confluent_platform_dvs]
 }
 
 resource "nomad_job" "confluent_platform_dvs" {

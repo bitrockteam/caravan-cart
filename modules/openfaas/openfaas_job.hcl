@@ -1,71 +1,15 @@
 job "faasd_bundle" {
-  datacenters = [
-    %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
-  ]
-
-  constraint {
-    attribute = "$${meta.nodeType}"
-    operator  = "="
-    value     = "worker"
-  }
-
+  datacenters = ["${dc_names}"]
   type        = "service"
-  
-  group "ingress-group" {
-
-    network {
-      mode = "bridge"
-
-      # This example will enable plain HTTP traffic to access the uuid-api connect
-      # native example service on port 8080.
-      port "inbound" {
-        static = 8080
-        to     = 8080
-      }
-    }
-
-    service {
-      name = "ingress-gateway"
-      port = "8080"
-
-      connect {
-        gateway {
-
-          # Consul gateway [envoy] proxy options.
-          proxy {
-            # The following options are automatically set by Nomad if not
-            # explicitly configured when using bridge networking.
-            #
-            # envoy_gateway_no_default_bind = true
-            # envoy_gateway_bind_addresses "uuid-api" {
-            #   address = "0.0.0.0"
-            #   port    = <associated listener.port>
-            # }
-            #
-            # Additional options are documented at
-            # https://www.nomadproject.io/docs/job-specification/gateway#proxy-parameters
-          }
-
-          # Consul Ingress Gateway Configuration Entry.
-          ingress {
-            # Nomad will automatically manage the Configuration Entry in Consul
-            # given the parameters in the ingress block.
-            #
-            # Additional options are documented at
-            # https://www.nomadproject.io/docs/job-specification/gateway#ingress-parameters
-            listener {
-              port     = 8080
-              protocol = "tcp"
-              service {
-                name = "gateway_http"
-              }
-            }
-          }
-        }
-      }
-    }
-  }
  
+  %{ for constraint in openfaas_jobs_constraints ~}
+  constraint {
+      %{ for key, value in constraint ~}
+      "${key}" = "${value}"
+      %{ endfor ~}
+  }
+  %{ endfor ~}
+
   group "faasd" {
 
     restart {
@@ -82,17 +26,18 @@ job "faasd_bundle" {
       }
       port "auth_http" {}
       port "nats_tcp" {}
+      port "nats_tcp_1" {
+        to = 6222
+      }
       port "nats_mon" {}
       port "gateway_http" {
-        static = 22222
         to = 8080
       }
       port "gateway_mon" {
-        static = 22223
         to = 8082
       }
       dns {
-        servers = ["192.168.0.1"]
+        servers = ["10.0.2.15"]
       }
     }
 
@@ -103,7 +48,6 @@ job "faasd_bundle" {
           
         check {
             type = "tcp"
-            # path = "/"
             port = "auth_http"
             interval = "5s"
             timeout = "2s"
@@ -156,31 +100,42 @@ job "faasd_bundle" {
         port = "faasd_http"
         check {
             type = "tcp"
-            # path = "/"
             port = "faasd_http"
             interval = "5s"
             timeout = "2s"
         }
     }
 
+    task "download-faasd" {
+      lifecycle {
+        hook = "prestart"
+        sidecar = false
+      }
+
+      driver = "raw_exec"
+      config {
+        command = "sh"
+        args = ["-c", "wget -q https://github.com/openfaas/faasd/releases/download/${faasd_version}/faasd && mv faasd /usr/local/bin/faasd && chmod +x /usr/local/bin/faasd"]
+      }
+    }
+
     task "faasd_provider" {
       driver = "raw_exec"
-      user = "root"
       config {
         command = "/usr/local/bin/faasd"
         args = ["provider"]
       }
       resources {
-        cpu    = 200
-        memory = 500
+        cpu    = 50
+        memory = 100
       }
     }
 
     task "nats" {
       driver = "docker"
       config {
-        image = "docker.io/library/nats-streaming:0.11.2"
-        ports = ["nats_tcp"]
+        image = "docker.io/library/nats-streaming:${faas_nats_version}"
+        ports = ["nats_tcp", "nats_tcp_1"]
         entrypoint = ["/nats-streaming-server"]
         args = [
           "-p",
@@ -196,8 +151,8 @@ job "faasd_bundle" {
         ]
       }
       resources {
-        cpu    = 200
-        memory = 1000
+        cpu    = 50
+        memory = 50
       }
     }
 
@@ -205,7 +160,7 @@ job "faasd_bundle" {
       driver = "docker"
 
       config {
-        image = "ghcr.io/openfaas/basic-auth:0.20.5"
+        image = "ghcr.io/openfaas/basic-auth:${faas_auth_plugin_version}"
         ports = ["auth_http"]
         cap_add = [
           "CAP_NET_RAW",
@@ -230,15 +185,15 @@ job "faasd_bundle" {
       }
 
       resources {
-        cpu    = 200
-        memory = 500
+        cpu    = 20
+        memory = 30
       }
     }
 
     task "gateway" {
       driver = "docker"
       config {
-        image = "ghcr.io/openfaas/gateway:0.20.7"
+        image = "ghcr.io/openfaas/gateway:${faas_gateway_version}"
         ports = ["gateway_http", "gateway_mon"]
         cap_add = [
           "CAP_NET_RAW",
@@ -259,9 +214,9 @@ job "faasd_bundle" {
         read_timeout="60s"
         write_timeout="60s"
         upstream_timeout="65s"
+        faas_prometheus_host="$${NOMAD_HOST_IP_gateway_http}"
         faas_nats_address="faasd-nats.service.consul"
         faas_nats_port="$${NOMAD_PORT_nats_tcp}"
-        faas_prometheus_host="prometheus.service.consul"
         auth_proxy_url="http://faasd-basic-auth.service.consul:$${NOMAD_PORT_auth_http}/validate"
         auth_proxy_pass_body="false"
         secret_mount_path="/secrets"
@@ -269,15 +224,15 @@ job "faasd_bundle" {
         function_namespace="openfaas-fn"
       }
       resources {
-        cpu    = 200
-        memory = 500
+        cpu    = 50
+        memory = 50
       }
     }
 
     task "queue-worker" {
       driver = "docker"
       config {
-        image = "docker.io/openfaas/queue-worker:0.11.2"
+        image = "docker.io/openfaas/queue-worker:${faas_queue_worker_version}"
         cap_add = [
           "CAP_NET_RAW",
         ]
@@ -303,8 +258,8 @@ job "faasd_bundle" {
         secret_mount_path="/secrets"
       }
       resources {
-        cpu    = 200
-        memory = 500
+        cpu    = 50
+        memory = 50
       }
     }
   }

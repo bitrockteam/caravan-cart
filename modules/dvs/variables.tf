@@ -46,3 +46,7 @@ variable "aviation_edge_key" {
   type    = string
   default = ""
 }
+variable "nomad_endpoint" {
+  type        = string
+  description = "(required) nomad cluster endpoint"
+}

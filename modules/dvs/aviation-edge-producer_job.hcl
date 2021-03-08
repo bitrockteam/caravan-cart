@@ -51,7 +51,7 @@ job "dvs-aviation-edge-producer" {
         command = "bash"
         args = [
           "-c",
-          "/local/dvs-kafka-topics.sh"
+          "ls -lah /local"
         ]
       }
       template {

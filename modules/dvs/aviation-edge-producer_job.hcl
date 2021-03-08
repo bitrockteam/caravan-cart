@@ -40,6 +40,10 @@ job "dvs-aviation-edge-producer" {
     }
 
     task "dvs-kafka-topics" {
+      lifecycle {
+        hook = "prestart"
+        sidecar = false
+      }
       driver = "docker"
 
       config {

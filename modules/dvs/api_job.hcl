@@ -17,16 +17,14 @@ job "dvs-api" {
     network {
       mode = "bridge"
       dns {
-        servers = [
-          "${nameserver_dummy_ip}"]
+        servers = [ "${nameserver_dummy_ip}"]
       }
     }
 
     service {
       name = "dvs-api"
-      tags = [
-        "dvs"]
-      port = "1081",
+      tags = ["dvs"]
+      port = 1081,
       check {
         expose = true
         name = "dvs-api-health"
@@ -63,7 +61,7 @@ job "dvs-api" {
       }
 
       resources {
-        cpu = 1000
+        cpu = 2000
         memory = 2512
       }
     }

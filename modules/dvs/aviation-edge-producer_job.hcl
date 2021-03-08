@@ -63,7 +63,7 @@ job "dvs-aviation-edge-producer" {
       }
 
       resources {
-        cpu = 1000
+        cpu = 2000
         memory = 3072
       }
     }

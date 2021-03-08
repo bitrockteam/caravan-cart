@@ -51,7 +51,7 @@ job "dvs-aviation-edge-producer" {
         command = "bash"
         args = [
           "-c",
-          "chmod +x /local/dvs-kafka-topics.sh && exec /local/dvs-kafka-topics.sh"
+          "/local/dvs-kafka-topics.sh"
         ]
       }
       template {

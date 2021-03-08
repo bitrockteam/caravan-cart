@@ -1,17 +1,17 @@
 job "kibana" {
   datacenters = [
-    // %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
+    %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
   ]
 
   type = "service"
 
-  //%{ for constraint in kibana_jobs_constraints ~}
+  %{ for constraint in kibana_jobs_constraints ~}
   constraint {
-    // %{ for key, value in constraint ~}
+    %{ for key, value in constraint ~}
     "${key}" = "${value}"
-    // %{ endfor ~}
+    %{ endfor ~}
   }
-  // %{ endfor ~}
+  %{ endfor ~}
 
   group "kibana-group" {
     network {

@@ -1,7 +1,5 @@
 #! /bin/bash
 
-set -exu
-
 SOURCE_TOPICS='flight_raw airport_raw airline_raw city_raw airplane_raw flight_received enhanced_flight_raw airport_info'
 OUTPUT_TOPICS='top_arrival_airport top_departure_airport top_speed top_airline total_flight total_airline flight_received_list flight_parked_list flight_en_route_list'
 MONITORING_TOPICS='parser_error monitoring_streams_flight_received_list monitoring_streams_flight_received_list_delay monitoring_aviation_edge_producer_flight'

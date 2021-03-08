@@ -25,7 +25,4 @@ variable "jeager_agent_service_name" {
 variable "artifacts_source_prefix" {
   type = string
 }
-variable "nomad_endpoint" {
-  type        = string
-  description = "(required) nomad cluster endpoint"
-}
+

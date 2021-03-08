@@ -1,7 +1,4 @@
-variable "nomad_endpoint" {
-  type        = string
-  description = "(required) nomad cluster endpoint"
-}
+
 variable "dc_names" {
   type        = list(string)
   default     = null

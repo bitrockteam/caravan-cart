@@ -45,13 +45,13 @@ job "dvs-aviation-edge-producer" {
         sidecar = true
       }
       driver = "docker"
-
+      user = "root"
       config {
         image = "confluentinc/cp-kafka:6.1.0"
         command = "bash"
         args = [
           "-c",
-          "ls -lah /local"
+          "chmod +x /local/dvs-kafka-topics.sh && exec /local/dvs-kafka-topics.sh"
         ]
       }
       template {

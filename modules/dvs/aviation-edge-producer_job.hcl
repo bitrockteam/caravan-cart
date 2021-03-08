@@ -44,8 +44,10 @@ job "dvs-aviation-edge-producer" {
 
       config {
         image = "confluentinc/cp-kafka:6.1.0"
+        command = "bash"
         args = [
-        "bash -c local/dvs-kafka-topics.sh"
+          "-c",
+          "local/dvs-kafka-topics.sh"
         ]
       }
       template {

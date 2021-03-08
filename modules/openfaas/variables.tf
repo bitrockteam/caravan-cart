@@ -1,3 +1,7 @@
+variable "nomad_endpoint" {
+  type        = string
+  description = "(required) nomad cluster endpoint"
+}
 variable "dc_names" {
   type        = list(string)
   default     = null
@@ -12,7 +16,23 @@ variable "openfaas_jobs_constraints" {
   }]
   description = "List of constraints to be applied to jobs. Escape $ with double $."
 }
-variable "nomad_endpoint" {
-  type        = string
-  description = "(required) nomad cluster endpoint"
+variable "faasd_version" {
+  type    = string
+  default = "0.11.2"
+}
+variable "faas_nats_version" {
+  type    = string
+  default = "0.11.2"
+}
+variable "faas_auth_plugin_version" {
+  type    = string
+  default = "0.20.5"
+}
+variable "faas_gateway_version" {
+  type    = string
+  default = "0.20.8"
+}
+variable "faas_queue_worker_version" {
+  type    = string
+  default = "0.11.2"
 }

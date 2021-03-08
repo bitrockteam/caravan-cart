@@ -56,7 +56,7 @@ job "dvs-aviation-edge-producer" {
       }
       template {
         data = <<EOH
-                  KAFKA.BOOTSTRAP.SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
+                  KAFKA_BOOTSTRAP_SERVERS="{{ range service "kafka-dvs" }}{{ .Address }}:{{ .Port }},{{ end }}"
                 EOH
 
         destination = "file.env"

@@ -4,5 +4,4 @@ terraform {
       source = "hashicorp/nomad"
     }
   }
-  required_version = "~> 0.14"
 }

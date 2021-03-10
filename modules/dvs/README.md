@@ -1,9 +1,7 @@
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| terraform | ~> 0.14 |
+No requirements.
 
 ## Providers
 

@@ -12,6 +12,13 @@ job "minimal-service" {
             }
         }
 
+        update {
+          max_parallel     = 2
+          min_healthy_time = "30s"
+          healthy_deadline = "10m"
+          auto_revert = true
+        }
+
         service {
           name = "minimal-service"
           port = "http"

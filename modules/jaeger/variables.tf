@@ -22,7 +22,8 @@ variable "jaeger_agent_service_name" {
   type    = string
   default = "jaeger-agent"
 }
-variable "artifacts_source_prefix" {
-  type = string
+variable "artifact_source_jaeger_spark_dependecies" {
+  type        = string
+  description = "The source location for the https://github.com/jaegertracing/spark-dependencies jar"
 }
 

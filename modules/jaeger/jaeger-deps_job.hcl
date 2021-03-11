@@ -43,7 +43,7 @@ job "jaeger-deps" {
             }
 
             artifact {
-                source = "${artifacts_source_prefix}/jaeger-spark-dependencies-0.0.1-SNAPSHOT.jar",
+                source = "${artifact_source_jaeger_spark_dependecies}",
                 destination = "local/"
             }
 

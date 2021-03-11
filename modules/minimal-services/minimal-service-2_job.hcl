@@ -1,5 +1,5 @@
 job "minimal-service-2" {
-    datacenters = ["${dc_name}"]
+    datacenters = ["${dc_names}"]
 
     group "minimal-service-group" {
         network {

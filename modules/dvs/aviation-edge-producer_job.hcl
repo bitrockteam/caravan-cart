@@ -98,12 +98,12 @@ job "dvs-aviation-edge-producer" {
         AVIATION_EDGE.BASE_URL = "http://aviation-edge.com"
         AVIATION_EDGE.KEY =  "${aviation_edge_key}"
         OPEN_SKY.BASE_URL = "https://opensky-network.org"
-        JAVA_OPTS = "-Xms3g -Xmx3g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
+        JAVA_OPTS = "-Xms2g -Xmx2g -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+PrintGCDetails"
       }
 
       resources {
         cpu = 2000
-        memory = 3072
+        memory = 4096
       }
     }
   }

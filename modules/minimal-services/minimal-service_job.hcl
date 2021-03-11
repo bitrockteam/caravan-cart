@@ -1,5 +1,7 @@
 job "minimal-service" {
-    datacenters = ["${dc_names}"]
+    datacenters = [
+      %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
+    ]
 
     group "minimal-service-group" {
         network {

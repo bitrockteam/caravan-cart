@@ -7,8 +7,8 @@ resource "nomad_job" "minimal-services" {
   jobspec = templatefile(
     "${path.module}/${each.value}",
     {
-      dc_names                 = var.dc_names,
-      nameserver_dummy_ip      = var.nameserver_dummy_ip,
+      dc_names            = var.dc_names,
+      nameserver_dummy_ip = var.nameserver_dummy_ip,
     }
   )
 }

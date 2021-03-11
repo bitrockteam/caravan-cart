@@ -18,7 +18,7 @@ variable "jaeger_jobs_constraints" {
 variable "elastic_service_name" {
   type = string
 }
-variable "jeager_agent_service_name" {
+variable "jaeger_agent_service_name" {
   type    = string
   default = "jaeger-agent"
 }

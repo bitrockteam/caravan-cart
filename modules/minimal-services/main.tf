@@ -9,6 +9,7 @@ resource "nomad_job" "minimal-services" {
     {
       dc_names            = var.dc_names,
       nameserver_dummy_ip = var.nameserver_dummy_ip,
+      minimal2_version    = var.minimal2_version
     }
   )
 }

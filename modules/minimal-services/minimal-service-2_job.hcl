@@ -41,7 +41,7 @@ job "minimal-service-2" {
             driver = "docker"
 
             config {
-                image = "efbar/minimal-service:1.0.0"
+                image = "efbar/minimal-service:${minimal2_version}"
                 ports = ["http"]
             }
 

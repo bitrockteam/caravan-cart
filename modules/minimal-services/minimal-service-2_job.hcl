@@ -52,6 +52,7 @@ job "minimal-service-2" {
 
             env {
               SERVICE_PORT="9090"
+              TRACING="1"
               JAEGER_URL="http://jaeger-collector.service.consul:14268/api/traces"
             }
 

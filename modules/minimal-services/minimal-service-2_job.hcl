@@ -3,7 +3,7 @@ job "minimal-service-2" {
       %{ for dc_name in dc_names ~}"${dc_name}",%{ endfor ~}
     ]
 
-    group "minimal-service-group" {
+    group "minimal-service-2-group" {
         network {
             mode = "bridge"
             port "http_envoy_prom" {
@@ -45,7 +45,7 @@ job "minimal-service-2" {
           }
         }
 
-        task "minimal-service" {
+        task "minimal-service-2" {
             driver = "docker"
 
             config {

@@ -14,8 +14,9 @@ job "minimal-service-2" {
 
         update {
           max_parallel     = 2
-          min_healthy_time = "30s"
-          healthy_deadline = "10m"
+          min_healthy_time  = "10s"
+          healthy_deadline  = "5m"
+          progress_deadline = "10m"
           auto_revert = true
         }
 

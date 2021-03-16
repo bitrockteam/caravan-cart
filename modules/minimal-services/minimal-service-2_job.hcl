@@ -13,13 +13,15 @@ job "minimal-service-2" {
               servers = ["${nameserver_dummy_ip}"]
             }
         }
-
+        count = 2
         update {
-          max_parallel     = 2
+          max_parallel      = 1
+//          canary            = 1
           min_healthy_time  = "10s"
           healthy_deadline  = "5m"
           progress_deadline = "10m"
-          auto_revert = true
+          auto_revert   = true
+//          auto_promote  = false
         }
 
         service {

@@ -6,7 +6,9 @@ job "minimal-service-2" {
     group "minimal-service-group" {
         network {
             mode = "bridge"
-            port "http" {}
+            port "http_envoy_prom" {
+              to = "9102"
+            }
             dns {
               servers = ["${nameserver_dummy_ip}"]
             }
@@ -22,18 +24,21 @@ job "minimal-service-2" {
 
         service {
           name = "minimal-service-2"
-          port = "http"
-
+          port = 9090
+          meta {
+            envoy_metrics_port = "$${NOMAD_HOST_PORT_http_envoy_prom}"
+          }
           connect {
               sidecar_service {}
           }
 
           check {
+            expose   = true
+            name     = "minimal-service-2-health"
             type     = "http"
             protocol = "http"
-            port     = "http"
-            interval = "25s"
-            timeout  = "35s"
+            interval = "10s"
+            timeout  = "5s"
             path     = "/health"
           }
         }
@@ -43,11 +48,11 @@ job "minimal-service-2" {
 
             config {
                 image = "efbar/minimal-service:${minimal2_version}"
-                ports = ["http"]
             }
 
             env {
-              SERVICE_PORT="$${NOMAD_PORT_http}"
+              SERVICE_PORT="9090"
+              JAEGER_URL="http://jaeger-collector.service.consul:14268/api/traces"
             }
 
             resources {

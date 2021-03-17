@@ -1,8 +1,10 @@
 # Caravan Cart
 
-This repository shows a collection of Terraform modules for  deploying some applications on Hashicorp Nomad.
+Caravan Cart is a collection of Terraform modules for deploying sample applications on Hashicorp Nomad. These applications have been used for testing the platform deployed by Caravan. The applications are provided _as is_.
 
-|  Application | Description | Module path |
+## Applications
+
+| Application | Description | Module path |
 |---|---|---|
 |`DVS`|Bitrock's DVS project, [here](https://github.com/bitrockteam/kafka-dvs-ui) more|`/dvs`|
 |`Waypoint`| [Hashicorp's Waypoint](https://www.waypointproject.io) |`/waypoint-server`|

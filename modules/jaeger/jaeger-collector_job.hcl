@@ -55,7 +55,7 @@ job "jaeger-collector" {
                 args = [
                     "--admin.http.host-port=0.0.0.0:$${NOMAD_PORT_http_admin}",
                     "--collector.grpc-server.host-port=0.0.0.0:$${NOMAD_PORT_http_span}",
-                    "--collector.zipkin.http-port=$${NOMAD_PORT_http_zipkin_span}"
+                    "--collector.zipkin.host-port=0.0.0.0:$${NOMAD_PORT_http_zipkin_span}"
                 ]
             }
 

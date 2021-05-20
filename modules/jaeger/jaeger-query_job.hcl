@@ -49,7 +49,7 @@ job "jaeger-query" {
                 command = "/usr/local/bin/jaeger-query"
                 args = [
                     "--admin.http.host-port=0.0.0.0:$${NOMAD_PORT_http_admin}",
-                    "--query.host-port=0.0.0.0:$${NOMAD_PORT_http}"
+                    "--query.http-server.host-port=0.0.0.0:$${NOMAD_PORT_http}"
                 ]
             }
 

@@ -7,6 +7,7 @@ resource "nomad_job" "kibana" {
       services_domain         = var.services_domain,
       elastic_service_name    = var.elastic_service_name,
       kibana_jobs_constraints = var.kibana_jobs_constraints,
+      kibana_image_tag        = var.kibana_image_tag
     }
   )
 }

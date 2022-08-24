@@ -56,7 +56,7 @@ job "kibana" {
       driver = "docker"
 
       config {
-        image = "docker.elastic.co/kibana/kibana:7.10.2"
+        image = "docker.elastic.co/kibana/kibana:${kibana_image_tag}"
       }
 
       env {

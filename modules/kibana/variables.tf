@@ -23,3 +23,7 @@ variable "kibana_jobs_constraints" {
   description = "List of constraints to be applied to jobs. Escape $ with double $."
 }
 
+variable "kibana_image_tag" {
+  type    = string
+  default = "7.17.5"
+}
